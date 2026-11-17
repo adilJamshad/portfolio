@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Adil Jamshad Ihsan, software engineer building scalable web backends and applied AI systems.">
+<title>Adil Jamshad Ihsan | Software Engineer</title>
+<link rel="stylesheet" href="style.css">
+<script src="portfolio.js" defer></script>
+<script src="lab.js" defer></script>
+<script src="corpus-scene.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<header class="wrap top">
+<a class="brand" href="#main" aria-label="Adil Jamshad Ihsan, home">AJ<span>.</span></a>
+<nav aria-label="Main navigation"><a href="#work">Work</a><a href="#lab">Lab</a><a href="#about">About</a><a href="#contact">Contact ↗</a></nav>
+</header>
+<main id="main" tabindex="-1">
+<section class="wrap hero" aria-labelledby="name">
+<div class="hero-copy">
+<p class="label"><span class="signal" aria-hidden="true"></span> Software engineer · Pakistan</p>
+<h1 id="name">Adil Jamshad<br><em>Ihsan.</em></h1>
+<div class="intro">
+<p>I build scalable web backends and applied AI systems, from event-driven services to retrieval and evaluation for LLM products.</p>
+<a class="button" href="#work">Explore my work <span aria-hidden="true">↓</span></a>
+</div>
+</div>
+<figure class="hero-figure">
+<div class="scene-shell">
+<canvas id="corpus-field" aria-hidden="true"></canvas>
+<div class="scene-grid" aria-hidden="true"></div>
+<div class="scene-toolbar">
+<button class="motion-control" id="field-view" type="button" hidden>Switch to index view</button>
+<button class="motion-control" id="field-motion" type="button" hidden>Pause motion</button>
+</div>
+</div>
+<figcaption class="scene-caption">
+<div class="corpus-caption"><strong>9,572</strong><span>indexed RFC sections</span></div>
+<a class="figure-caption" href="#lab">Open the retrieval lab <span aria-hidden="true">↘</span></a>
+</figcaption>
+</figure>
+</section>
+<section class="wrap section" id="work" tabindex="-1">
+<h2>Selected work</h2>
+<article class="feature">
+<div>
+<p class="label">Personal project · Retrieval-augmented generation</p>
+<h3>RFC RAG Pipeline</h3>
+<p>A question-answering system for Internet standards. It retrieves from 9,572 RFC sections, checks generated quotes against their sources, and flags standards that have been superseded.</p>
+<a class="under" href="https://github.com/adilJamshad/rag-pipeline">View source on GitHub ↗</a>
+</div>
+<section class="flow" id="pipeline-demo" aria-labelledby="demo-title">
+<h4 id="demo-title">Try the pipeline</h4>
+<p class="demo-hint">Choose a sample question to see its route and response.</p>
+<div class="queries" aria-label="Sample questions">
+<button type="button" aria-pressed="true" data-query="status">Is RFC 2065 current?</button>
+<button type="button" aria-pressed="false" data-query="section">What does RFC 1035 §2.3.4 say?</button>
+<button type="button" aria-pressed="false" data-query="search">How long can a DNS label be?</button>
+</div>
+<div class="result" aria-live="polite" aria-atomic="true">
+<p class="label route">SQL status lookup</p>
+<p class="answer">RFC 2065 was obsoleted by RFC 2535.</p>
+<a class="source" href="https://www.rfc-editor.org/info/rfc2065">RFC 2065 status ↗</a>
+</div>
+</section>
+</article>
+<section class="lab" id="lab" tabindex="-1" aria-labelledby="lab-title">
+<header class="lab-header">
+<div><p class="label">RFC RAG Pipeline · Interactive case study</p><h3 id="lab-title">What breaks when<br>you switch models?</h3></div>
+<p>Change one component at a time and watch what happens to the index. This simulation uses the model configurations explored in the project.</p>
+</header>
+<div class="lab-console">
+<div class="lab-controls">
+<label for="chat-model">Answer generation</label>
+<select id="chat-model"><option value="groq">Groq</option><option value="gemini">Gemini</option><option value="local">Local model</option></select>
+<label for="embedding-model">Embedding model</label>
+<select id="embedding-model"><option value="local">Local BGE Small</option><option value="gemini">Gemini embeddings</option></select>
+<button id="rebuild-index" type="button" disabled>Rebuild index</button>
+</div>
+<div class="lab-main">
+<ol class="pipeline" aria-label="Retrieval architecture">
+<li><span>01 · Embed</span><strong id="query-engine">Local BGE Small</strong><small>Question vector</small></li>
+<li id="index-node"><span>02 · Retrieve</span><strong>pgvector</strong><small id="index-engine">Indexed with Local BGE Small</small></li>
+<li><span>03 · Answer</span><strong id="answer-engine">Groq</strong><small>Generate from retrieved sections</small></li>
+</ol>
+<div class="lab-status" role="status"><span class="status-light" aria-hidden="true"></span><span id="lab-message">Index ready. Question and RFC section vectors use Local BGE Small.</span></div>
+</div>
+</div>
+</section>
+<aside class="project-note" aria-labelledby="embedding-title">
+<div>
+<p class="label">Engineering note · RFC RAG Pipeline</p>
+<h3 id="embedding-title">What I learned when I changed models</h3>
+</div>
+<div>
+<p>I started with a local model, tried Gemini, and eventually moved answer generation to Groq. The hard part was figuring out which changes meant I had to rebuild the search index.</p>
+<p>Search compares a question’s embedding with the embeddings already stored for the RFC sections. I learned that both need to come from the same embedding model. Changing that model meant re-embedding the corpus. Once I separated retrieval from answer generation, I could keep embeddings local and change the chat model without rebuilding the index.</p>
+</div>
+</aside>
+<div class="projects">
+<article><p class="label">MEETOVO · LLM product</p><strong class="metric">50<span> eval cases</span></strong><h3>Recruiting campaign builder</h3><p>Built a multi-step workflow that turns company websites into recruiting campaign copy and imagery. Added input and output guardrails and a 50-case evaluation suite for prompt changes.</p></article>
+<article><p class="label">MEETOVO · Backend performance</p><strong class="metric">20–25<span> sec</span></strong><h3>Faster applicant tracking</h3><p>Reworked heavy data fetches into lightweight GraphQL queries, eliminating 20–25 second blocking loads in applicant and funnel views and resolving timeouts for large accounts.</p></article>
+<article><p class="label">Educative · Payments</p><strong class="metric">$6,000<span> / month</span></strong><h3>Chargeback and dispute management</h3><p>Built a Flask-based dispute system that reduced monthly revenue loss by $6,000.</p></article>
+</div>
+</section>
+<section class="wrap section about" id="about" tabindex="-1" aria-labelledby="about-title">
+<h2 id="about-title">How I work and what I read</h2>
+<div>
+<p>A teammate once told me they appreciated how well I knew the systems I worked on. I enjoy getting into the details, especially when it helps explain why a system behaves the way it does.</p>
+<p>I’m just as happy nerding out about books. Some of my favorite conversations with teammates are about what I’m reading, what I took from it, and how I decide what to read next.</p>
+<a class="under" href="#experience">See my experience ↓</a>
+</div>
+</section>
+<section class="wrap section history" id="experience">
+<h2>Experience</h2>
+<dl>
+<div><dt>MEETOVO</dt><dd>Full-Stack Software Engineer</dd><dd>Aug 2024–Present</dd></div>
+<div><dt>Educative</dt><dd>Software Engineer II</dd><dd>Jul 2023–Aug 2024</dd></div>
+<div><dt>10Pearls</dt><dd>Senior Software Engineer II</dd><dd>Jun 2022–Jun 2023</dd></div>
+<div><dt>The Softaims</dt><dd>Software Engineer</dd><dd>Dec 2021–Jun 2022</dd></div>
+<div><dt>Datics</dt><dd>Software Engineer</dd><dd>Jun 2021–Dec 2021</dd></div>
+<div><dt>Integriti Group</dt><dd>Software Engineer</dd><dd>Nov 2019–May 2021</dd></div>
+</dl>
+<p class="education">B.Sc. Electrical Engineering · Lahore University of Management Sciences</p>
+</section>
+</main>
+<footer id="contact" tabindex="-1">
+<div class="wrap footer">
+<section><h2>Get in touch</h2><p>If you’re building a web application that needs to scale or working on an applied AI problem, I’d like to hear what you’re working on.</p></section>
+<div><a href="https://www.linkedin.com/in/ajihsan">LinkedIn ↗</a><a href="https://github.com/adilJamshad">GitHub ↗</a></div>
+</div>
+</footer>
+</body>
+</html>
